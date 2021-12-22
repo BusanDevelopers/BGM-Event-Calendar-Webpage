@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { ProvidePlugin } = require('webpack');
 
 module.exports = {
-  entry: ['./src/index.js'],
+  entry: ['./src/App.tsx'],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -22,9 +22,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules\/(?!(react-router))/,
-        loader: 'babel-loader',
+        use: [
+          'babel-loader',
+          { loader: 'ts-loader', options: { transpileOnly: true } },
+        ],
       },
       {
         test: /\.css$/,
