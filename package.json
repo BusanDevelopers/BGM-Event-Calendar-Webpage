@@ -15,7 +15,7 @@
     "> 0.25% in US"
   ],
   "scripts": {
-    "precommit": "lint-staged",
+    "pre-commit": "lint-staged",
     "dev": "webpack serve --mode development --open --hot --config ./webpack.dev.js --progress",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.prod.js --progress",
     "lint": "prettier --check \"**/*.{js,jsx,css,ts,tsx}\" && eslint \"**/*.{js,jsx,ts,tsx}\"",
