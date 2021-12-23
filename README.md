@@ -24,4 +24,5 @@
 타입스크립트 리엑트 개발 환경은 다른 Boilerplate 코드를 사용하지 않고 직접 ESLint, Prettier, WebPack, Babel을 설정하여 구축하였습니다.
 코드 스타일링 규칙 및 배포 환경설정은 각 설정파일을 참고해 주시기 바랍니다.
 
-React는 17.0.2버전, React Router는 6.1.1버전을 사용하였습니다.
+React는 17.0.2버전, React Router는 6.1.1버전을 사용하였습니다.  
+추가로 수려한 디자인을 위해 Material UI (MUI) 라이브러리 (v5.2.5)를 사용하였습니다.

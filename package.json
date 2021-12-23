@@ -41,6 +41,11 @@
   },
   "homepage": "https://github.com/BusanDevelopers/BGM-Event-Calendar-Webpage#readme",
   "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@fontsource/ibm-plex-sans-kr": "^4.5.3",
+    "@mui/icons-material": "^5.2.5",
+    "@mui/material": "^5.2.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.1.1"
