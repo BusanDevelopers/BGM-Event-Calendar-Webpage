@@ -9,12 +9,14 @@ import React from 'react';
 import { render } from 'react-dom';
 // Material UI
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Typography } from '@mui/material';
 // Font
 import '@fontsource/ibm-plex-sans-kr/300.css';
 import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 import '@fontsource/ibm-plex-sans-kr/700.css';
+// Elements
+import Calendar from './Calendar';
+import { CssBaseline } from '@mui/material';
 
 const theme = createTheme({
   typography: {
@@ -22,14 +24,18 @@ const theme = createTheme({
   },
 });
 
-const App = (): React.ReactElement => {
+/**
+ * React functional component to render the application's entry point
+ *
+ * @return {React.ReactElement} The entry point of the application
+ */
+function App(): React.ReactElement {
   return (
     <ThemeProvider theme={theme}>
-      <Typography align="center" variant="h6">
-        Hello World 안녕하세요.
-      </Typography>
+      <CssBaseline />
+      <Calendar />
     </ThemeProvider>
   );
-};
+}
 
 render(<App />, document.getElementById('root'));

@@ -5,7 +5,7 @@ const { ProvidePlugin } = require('webpack');
 module.exports = {
   entry: ['./src/App.tsx'],
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   target: ['browserslist', 'es5'],
   output: {
