@@ -159,8 +159,8 @@ function Calendar(): React.ReactElement {
       sx={{ height: '100%', overflow: 'hidden' }}
     >
       <Grid item>
-        <Box sx={{ ...styles.headerWrapper }}>
-          <Stack direction="row" sx={{ ...styles.headerTitleWrapper }}>
+        <Box sx={styles.headerWrapper}>
+          <Stack direction="row" sx={styles.headerTitleWrapper}>
             <IconButton
               onClick={(): void => moveMonth(-1)}
               sx={{ color: 'lightgray' }}
@@ -194,6 +194,9 @@ function Calendar(): React.ReactElement {
             return (
               <CalendarBox
                 date={value.date}
+                dateString={`${currentMonthDate.toLocaleDateString('en-US', {
+                  month: 'short',
+                })}. ${String(value.date).padStart(2, '0')}. ${year}`}
                 eventList={value.eventList}
                 key={`${year}-${month}-${index}`}
               />

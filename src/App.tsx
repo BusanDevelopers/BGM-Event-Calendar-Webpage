@@ -16,7 +16,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import '@fontsource/ibm-plex-sans-kr/300.css';
 import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
-import '@fontsource/ibm-plex-sans-kr/700.css';
 // Elements
 import Loading from './components/Loading';
 const Calendar = React.lazy(() => import('./Calendar'));

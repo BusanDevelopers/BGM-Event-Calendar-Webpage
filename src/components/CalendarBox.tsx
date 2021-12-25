@@ -7,12 +7,15 @@
 import React from 'react';
 // Material UI
 import { Box, Typography } from '@mui/material';
+// Component
+import DateEventModal from './DateEventModal';
 
 /**
  * Interface for the Component's props
  */
 interface CalendarBoxProps {
   date: number;
+  dateString: string;
   eventList: { id: string; name: string; category: string }[];
 }
 
@@ -55,9 +58,10 @@ function styleProvider(category: string): object {
  * @return {React.ReactElement} Renders CalendarBox
  */
 function CalendarBox(props: CalendarBoxProps): React.ReactElement {
-  const { date, eventList } = props;
+  const { date, eventList, dateString } = props;
   // Props
   const [numEventEntry, setNumEventEntry] = React.useState(Number.MAX_VALUE);
+  const [modalOpen, setModalOpen] = React.useState(false);
   // Ref
   const boxRef = React.useRef(null);
   const eventRef = React.useRef(null);
@@ -108,59 +112,80 @@ function CalendarBox(props: CalendarBoxProps): React.ReactElement {
    * @param {number} numSlot number of available event to be displayed
    * @return {React.ReactElement[]} Array of React Elements
    */
-  const getEventEntryElem = (
-    eventList: CalendarBoxProps['eventList'],
-    numSlot: number
-  ): React.ReactElement[] => {
-    const elements = [];
-    const displayAll = eventList.length <= numSlot;
-    const maxDisplay = displayAll ? eventList.length : numSlot - 1;
+  const getEventEntryElem = React.useCallback(
+    (
+      eventList: CalendarBoxProps['eventList'],
+      numSlot: number
+    ): React.ReactElement[] => {
+      const elements = [];
+      const displayAll = eventList.length <= numSlot;
+      const maxDisplay = displayAll ? eventList.length : numSlot - 1;
 
-    // Display events
-    for (let i = 0; i < maxDisplay; ++i) {
-      const event = eventList[i];
-      elements.push(
-        <Box
-          ref={i === 0 ? eventRef : null}
-          sx={{ ...styleProvider(event.category) }}
-          key={`${date}-${i}`}
-        >
-          <Typography component="div" variant="body2" noWrap>
-            {event.name}
-          </Typography>
-        </Box>
-      );
-    }
-
-    // Display how many events remaining
-    if (!displayAll) {
-      elements.push(
-        <Box
-          ref={numSlot === 1 ? eventRef : null}
-          sx={{ ...styleProvider('more'), border: '1px solid black' }}
-          key={`${date}-more`}
-        >
-          <Typography
-            component="div"
-            variant="body2"
-            noWrap
-            sx={{ fontWeight: 700 }}
+      // Display events
+      for (let i = 0; i < maxDisplay; ++i) {
+        const event = eventList[i];
+        elements.push(
+          <Box
+            ref={i === 0 ? eventRef : null}
+            sx={{ ...styleProvider(event.category) }}
+            key={event.id}
           >
-            {eventList.length - numSlot + 1} More
-          </Typography>
-        </Box>
-      );
-    }
+            <Typography component="div" variant="body2" noWrap>
+              {event.name}
+            </Typography>
+          </Box>
+        );
+      }
 
-    return elements;
+      // Display how many events remaining
+      if (!displayAll) {
+        elements.push(
+          <Box
+            ref={numSlot === 1 ? eventRef : null}
+            sx={{ ...styleProvider('more'), border: '1px solid black' }}
+            key={`${date}-more`}
+          >
+            <Typography
+              component="div"
+              variant="body2"
+              noWrap
+              sx={{ fontWeight: 700 }}
+            >
+              {eventList.length - numSlot + 1} More
+            </Typography>
+          </Box>
+        );
+      }
+
+      return elements;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  // EventHandlers to open/close modal
+  const handleOpen = (): void => {
+    if (!modalOpen && date) {
+      setModalOpen(true);
+    }
+  };
+  const handleClose = (): void => {
+    setModalOpen(false);
   };
 
   return (
-    <Box ref={boxRef} sx={{ ...calendarBoxStyle }}>
+    <Box ref={boxRef} sx={calendarBoxStyle} onClick={handleOpen}>
       {date && (
         <>
           <Typography variant="body1">{date}</Typography>
           {getEventEntryElem(eventList, numEventEntry)}
+          <DateEventModal
+            isOpen={modalOpen}
+            handleClose={handleClose}
+            dateString={dateString}
+            eventList={eventList}
+            colorScheme={colorMap}
+          />
         </>
       )}
     </Box>
