@@ -43,7 +43,7 @@ function getCalendarGridColumnStyle(nRow: number): object {
   return {
     display: 'grid',
     gridTemplateColumns: 'repeat(7, 1fr)',
-    gridTemplateRows: `repeat(${nRow}, 1fr)`,
+    gridTemplateRows: `repeat(${nRow}, ${100 / nRow}%)`,
     gridGap: '1px',
   };
 }
@@ -188,8 +188,8 @@ function Calendar(): React.ReactElement {
       <Grid item sx={{ backgroundColor: 'gray' }}>
         <DaysOfWeek />
       </Grid>
-      <Grid item sx={{ flexGrow: 1, backgroundColor: 'gray' }}>
-        <Box sx={{ ...getCalendarGridColumnStyle(nRow), height: '100%' }}>
+      <Grid item sx={{ flexGrow: 1, backgroundColor: 'gray', minHeight: 0 }}>
+        <Box style={{ ...getCalendarGridColumnStyle(nRow), height: '100%' }}>
           {calendarData.map((value, index) => {
             return (
               <CalendarBox
