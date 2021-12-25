@@ -17,7 +17,7 @@ import '@fontsource/ibm-plex-sans-kr/300.css';
 import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 // Elements
-import Loading from './components/Loading';
+import Loading from './components/Loading/Loading';
 const Calendar = React.lazy(() => import('./Calendar'));
 
 // MUI Theme (Setup Font family)

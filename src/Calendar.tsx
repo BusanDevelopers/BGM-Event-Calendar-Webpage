@@ -15,8 +15,8 @@ import {
   ArrowForwardIosRounded,
 } from '@mui/icons-material';
 // Components
-import CalendarBox from './components/CalendarBox';
-import DaysOfWeek from './components/DaysOfWeek';
+import CalendarBox from './components/Calendar/CalendarBox';
+import DaysOfWeek from './components/Calendar/DaysOfWeek';
 
 // Styles
 const styles = {
