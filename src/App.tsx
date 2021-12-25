@@ -41,7 +41,7 @@ const theme = createTheme({
     },
     body1: {
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
-        fontSize: '0.8rem',
+        fontSize: '0.7rem',
       },
     },
     body2: {
@@ -59,15 +59,17 @@ const theme = createTheme({
  */
 function App(): React.ReactElement {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Calendar />} />
-          <Route path="/:year-:month" element={<Calendar />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Calendar />} />
+            <Route path="/:year-:month" element={<Calendar />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </React.StrictMode>
   );
 }
 
