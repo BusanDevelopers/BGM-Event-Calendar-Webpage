@@ -10,13 +10,20 @@ module.exports = {
   target: ['browserslist', 'es5'],
   output: {
     path: join(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].chunk.bundle.js',
+    filename: '[name].[contenthash:8].bundle.js',
+    chunkFilename: '[name].[contenthash:8].chunk.bundle.js',
     clean: true,
   },
   optimization: {
     splitChunks: {
       chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          chunks: 'initial',
+          name: 'vendor',
+          enforce: true,
+        },
+      },
     },
   },
   module: {

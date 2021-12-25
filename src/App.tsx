@@ -9,6 +9,7 @@ import React from 'react';
 import { render } from 'react-dom';
 // Material UI
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 // Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Font
@@ -17,8 +18,8 @@ import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 import '@fontsource/ibm-plex-sans-kr/700.css';
 // Elements
-import Calendar from './Calendar';
-import { CssBaseline } from '@mui/material';
+import Loading from './components/Loading';
+const Calendar = React.lazy(() => import('./Calendar'));
 
 // MUI Theme (Setup Font family)
 const breakpoints = {
@@ -60,15 +61,17 @@ const theme = createTheme({
 function App(): React.ReactElement {
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <Routes>
-            <Route path="/" element={<Calendar />} />
-            <Route path="/:year-:month" element={<Calendar />} />
-          </Routes>
-        </Router>
-      </ThemeProvider>
+      <React.Suspense fallback={<Loading />}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router>
+            <Routes>
+              <Route path="/" element={<Calendar />} />
+              <Route path="/:year-:month" element={<Calendar />} />
+            </Routes>
+          </Router>
+        </ThemeProvider>
+      </React.Suspense>
     </React.StrictMode>
   );
 }

@@ -41,7 +41,7 @@ function styleProvider(category: string): object {
   return {
     width: '100%',
     backgroundColor: colorMap[category] ? colorMap[category] : colorMap.etc,
-    padding: '2px 3px',
+    padding: category === 'more' ? '1px 2px' : '2px 3px',
     margin: '2px 0',
     borderRadius: '3px',
   };
@@ -137,7 +137,7 @@ function CalendarBox(props: CalendarBoxProps): React.ReactElement {
       elements.push(
         <Box
           ref={numSlot === 1 ? eventRef : null}
-          sx={{ ...styleProvider('more') }}
+          sx={{ ...styleProvider('more'), border: '1px solid black' }}
           key={`${date}-more`}
         >
           <Typography
