@@ -21,9 +21,34 @@ import Calendar from './Calendar';
 import { CssBaseline } from '@mui/material';
 
 // MUI Theme (Setup Font family)
+const breakpoints = {
+  values: {
+    xs: 0,
+    sm: 600,
+    md: 900,
+    lg: 1200,
+    xl: 1536,
+  },
+};
 const theme = createTheme({
+  breakpoints,
   typography: {
     fontFamily: '"IBM Plex Sans KR", sans-serif',
+    subtitle1: {
+      [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
+        fontSize: '0.8rem',
+      },
+    },
+    body1: {
+      [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
+        fontSize: '0.8rem',
+      },
+    },
+    body2: {
+      [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
+        fontSize: '0.6rem',
+      },
+    },
   },
 });
 
