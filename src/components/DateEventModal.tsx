@@ -87,7 +87,7 @@ function DateEventModal(props: DateEventModalProps): React.ReactElement {
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={isOpen}>
-        <Box sx={style.modalWrapper} onClick={handleClose}>
+        <Box sx={style.modalWrapper}>
           <Typography
             variant="h6"
             component="div"
