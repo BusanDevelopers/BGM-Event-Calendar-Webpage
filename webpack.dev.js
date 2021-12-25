@@ -10,6 +10,7 @@ module.exports = merge(common, {
     port: 5500,
     hot: true,
     allowedHosts: ['.loca.lt'],
+    historyApiFallback: true,
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
