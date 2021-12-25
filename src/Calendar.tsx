@@ -1,7 +1,7 @@
 /**
  * Calendar (Main) Page
  *
- * @author Hyecheol (Jerry) Jang
+ * @author Hyecheol (Jerry) Jang <hyecheol123@gmail.com>
  */
 
 import React from 'react';
@@ -13,18 +13,28 @@ import {
   ArrowBackIosRounded,
   ArrowForwardIosRounded,
 } from '@mui/icons-material';
+// Components
+import CalendarBox from './components/CalendarBox';
 
-const calendarGridColumnStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(7, 1fr)',
-  gridGap: '1px',
-  height: '100%',
-};
-
-const calendarBoxStyle = {
-  backgroundColor: 'white',
-  padding: '2px',
-  overflow: 'hidden',
+// Styles
+const styles = {
+  headerWrapper: {
+    display: 'flex',
+    backgroundColor: 'primary.main',
+    padding: '2px 10px',
+    alignItems: 'center',
+  },
+  headerTitleWrapper: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  calendarGridColumn: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(7, 1fr)',
+    gridGap: '1px',
+    height: '100%',
+  },
 };
 
 /**
@@ -36,18 +46,8 @@ function Calendar(): React.ReactElement {
   return (
     <Grid container direction="column" sx={{ height: '100%' }}>
       <Grid item>
-        <Box
-          sx={{
-            display: 'flex',
-            backgroundColor: 'primary.main',
-            padding: '2px 10px',
-            alignItems: 'center',
-          }}
-        >
-          <Stack
-            direction="row"
-            sx={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}
-          >
+        <Box sx={{ ...styles.headerWrapper }}>
+          <Stack direction="row" sx={{ ...styles.headerTitleWrapper }}>
             <IconButton sx={{ color: 'lightgray' }}>
               <ArrowBackIosRounded />
             </IconButton>
@@ -66,42 +66,42 @@ function Calendar(): React.ReactElement {
         </Box>
       </Grid>
       <Grid item sx={{ flexGrow: 1, backgroundColor: 'gray' }}>
-        <Box sx={{ ...calendarGridColumnStyle }}>
-          <Box sx={{ ...calendarBoxStyle }}>1</Box>
-          <Box sx={{ ...calendarBoxStyle }}>2</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
-          <Box sx={{ ...calendarBoxStyle }}>Hello</Box>
+        <Box sx={{ ...styles.calendarGridColumn }}>
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
+          <CalendarBox />
         </Box>
       </Grid>
     </Grid>
