@@ -21,18 +21,31 @@ interface DateEventModalProps {
 }
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  height: '75%',
-  width: '90%',
-  maxWidth: '450px',
-  p: 1,
-  bgcolor: 'background.paper',
-  border: '2px solid black',
-  borderRadius: '10px',
-  boxShadow: 24,
+  modalWrapper: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    height: '75%',
+    width: '90%',
+    maxWidth: '450px',
+    p: 1,
+    bgcolor: 'background.paper',
+    border: '2px solid black',
+    borderRadius: '10px',
+    boxShadow: 24,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  noEvent: {
+    width: '100%',
+    height: '100%',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontStyle: 'italic',
+    color: 'gray',
+  },
 };
 
 /**
@@ -74,7 +87,7 @@ function DateEventModal(props: DateEventModalProps): React.ReactElement {
       BackdropProps={{ timeout: 500 }}
     >
       <Fade in={isOpen}>
-        <Box sx={style} onClick={handleClose}>
+        <Box sx={style.modalWrapper} onClick={handleClose}>
           <Typography
             variant="h6"
             component="div"
@@ -84,23 +97,34 @@ function DateEventModal(props: DateEventModalProps): React.ReactElement {
             {dateString}
           </Typography>
           <Divider />
-          <Box sx={{ margin: '3px 0', overflowY: 'auto' }}>
-            {eventList.map((event) => {
-              return (
-                <Box
-                  sx={{ ...eventStyleProvider(colorScheme, event.category) }}
-                  key={event.id}
-                >
-                  <Typography
-                    component="div"
-                    variant="body1"
-                    sx={{ fontSize: '1.1rem', fontWeight: 500 }}
+          <Box sx={{ margin: '3px 0', overflowY: 'auto', flexGrow: 1 }}>
+            {eventList.length !== 0 ? (
+              eventList.map((event) => {
+                return (
+                  <Box
+                    sx={{ ...eventStyleProvider(colorScheme, event.category) }}
+                    key={event.id}
                   >
-                    {event.name}
-                  </Typography>
-                </Box>
-              );
-            })}
+                    <Typography
+                      component="div"
+                      variant="body1"
+                      sx={{ fontSize: '1.1rem', fontWeight: 500 }}
+                    >
+                      {event.name}
+                    </Typography>
+                  </Box>
+                );
+              })
+            ) : (
+              <Typography
+                component="div"
+                variant="h5"
+                align="center"
+                sx={style.noEvent}
+              >
+                No Events
+              </Typography>
+            )}
           </Box>
         </Box>
       </Fade>
