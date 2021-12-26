@@ -8,7 +8,8 @@ import React from 'react';
 // Material UI
 import { Box, Typography } from '@mui/material';
 // Component
-import DateEventModal from './DateEventModal';
+const DateEventModal = React.lazy(() => import('./DateEventModal'));
+// import DateEventModal from './DateEventModal';
 
 /**
  * Interface for the Component's props
@@ -179,13 +180,15 @@ function CalendarBox(props: CalendarBoxProps): React.ReactElement {
         <>
           <Typography variant="body1">{date}</Typography>
           {getEventEntryElem(eventList, numEventEntry)}
-          <DateEventModal
-            isOpen={modalOpen}
-            handleClose={handleClose}
-            dateString={dateString}
-            eventList={eventList}
-            colorScheme={colorMap}
-          />
+          {modalOpen && (
+            <DateEventModal
+              isOpen={modalOpen}
+              handleClose={handleClose}
+              dateString={dateString}
+              eventList={eventList}
+              colorScheme={colorMap}
+            />
+          )}
         </>
       )}
     </Box>
