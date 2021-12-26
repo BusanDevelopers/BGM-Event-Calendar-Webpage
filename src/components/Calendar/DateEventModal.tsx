@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 // Material UI
 import { Backdrop, Box, Divider, Fade, Modal, Typography } from '@mui/material';
 
@@ -78,6 +79,8 @@ function eventStyleProvider(
  */
 function DateEventModal(props: DateEventModalProps): React.ReactElement {
   const { isOpen, handleClose, dateString, eventList, colorScheme } = props;
+  const navigate = useNavigate();
+
   return (
     <Modal
       open={isOpen}
@@ -103,6 +106,7 @@ function DateEventModal(props: DateEventModalProps): React.ReactElement {
                 return (
                   <Box
                     sx={{ ...eventStyleProvider(colorScheme, event.category) }}
+                    onClick={(): void => navigate(`/event/${event.id}`)}
                     key={event.id}
                   >
                     <Typography
