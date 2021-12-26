@@ -19,6 +19,7 @@ import '@fontsource/ibm-plex-sans-kr/500.css';
 // Elements
 import Loading from './components/Loading/Loading';
 const Calendar = React.lazy(() => import('./Calendar'));
+const EventDetail = React.lazy(() => import('./EventDetail'));
 
 // MUI Theme (Setup Font family)
 const breakpoints = {
@@ -67,6 +68,7 @@ function App(): React.ReactElement {
             <Routes>
               <Route path="/" element={<Calendar />} />
               <Route path="/:year-:month" element={<Calendar />} />
+              <Route path="/event/:id" element={<EventDetail />} />
             </Routes>
           </Router>
         </ThemeProvider>
