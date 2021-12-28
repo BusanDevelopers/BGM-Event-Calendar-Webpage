@@ -138,20 +138,20 @@ function EventDetail(): React.ReactElement {
       </Grid>
       {eventDetail && (
         <Grid item sx={styles.detailWrapper}>
-          <Box sx={{ width: '100%', maxWidth: '800px' }}>
-            <Typography variant="h3">{eventDetail.name}</Typography>
+          <Box sx={{ width: '100%', maxWidth: '800px', padding: '20px 5px' }}>
+            <Typography variant="h4">{eventDetail.name}</Typography>
             {eventDetail.category ? (
               <Typography variant="caption">{eventDetail.category}</Typography>
             ) : (
               <Typography variant="caption">No Category</Typography>
             )}
-            <Divider />
-            <Typography variant="body1">Event Date: {dateString}</Typography>
+            <Divider sx={{ margin: '10px 0' }} />
+            <Typography variant="body">Event Date: {dateString}</Typography>
             {eventDetail.detail && (
-              <>
+              <Box sx={{ margin: '15px 0' }}>
                 <Typography variant="h6">Detail</Typography>
-                <Typography variant="body1">{eventDetail.detail}</Typography>
-              </>
+                <Typography variant="body">{eventDetail.detail}</Typography>
+              </Box>
             )}
           </Box>
         </Grid>

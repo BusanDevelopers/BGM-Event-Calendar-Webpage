@@ -22,6 +22,16 @@ const Calendar = React.lazy(() => import('./Calendar'));
 const EventDetail = React.lazy(() => import('./EventDetail'));
 
 // MUI Theme (Setup Font family)
+declare module '@mui/material/styles' {
+  interface TypographyVariantsOptions {
+    body?: React.CSSProperties;
+  }
+}
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    body: true;
+  }
+}
 const breakpoints = {
   values: {
     xs: 0,
@@ -35,6 +45,12 @@ const theme = createTheme({
   breakpoints,
   typography: {
     fontFamily: '"IBM Plex Sans KR", sans-serif',
+    h4: {
+      fontWeight: 500,
+      [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
+        fontSize: '1.5rem',
+      },
+    },
     subtitle1: {
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
         fontSize: '0.8rem',
@@ -49,6 +65,18 @@ const theme = createTheme({
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
         fontSize: '0.6rem',
       },
+    },
+    body: {
+      fontWeight: 400,
+      fontSize: '1rem',
+      lineHeight: 1.5,
+      letterSpacing: '0.00938em',
+      [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
+        fontSize: '0.9rem',
+      },
+    },
+    caption: {
+      fontSize: '0.8rem',
     },
   },
 });
