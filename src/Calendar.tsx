@@ -10,28 +10,18 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Grid, IconButton, Stack, Typography } from '@mui/material';
 // Material UI Icons
 import {
-  AccountCircle,
   ArrowBackIosRounded,
   ArrowForwardIosRounded,
 } from '@mui/icons-material';
 // Components
 import CalendarBox from './components/Calendar/CalendarBox';
 import DaysOfWeek from './components/Calendar/DaysOfWeek';
+import AccountBtn from './components/AccountBtn';
+// Global Style
+import headerStyle from './globalStyle/headerStyle';
 
 // Styles
-const styles = {
-  headerWrapper: {
-    display: 'flex',
-    backgroundColor: 'primary.main',
-    padding: '2px 10px',
-    alignItems: 'center',
-  },
-  headerTitleWrapper: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-};
+const styles = { ...headerStyle };
 
 /**
  * Function to generate style for the calendar
@@ -178,11 +168,7 @@ function Calendar(): React.ReactElement {
               <ArrowForwardIosRounded />
             </IconButton>
           </Stack>
-          <IconButton sx={{ padding: '4px' }}>
-            <AccountCircle
-              sx={{ height: '32px', width: '32px', color: 'white' }}
-            />
-          </IconButton>
+          <AccountBtn />
         </Box>
       </Grid>
       <Grid item sx={{ backgroundColor: 'gray' }}>
