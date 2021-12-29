@@ -44,11 +44,32 @@ function ParticipationForm(): React.ReactElement {
   });
   const [comment, setComment] = React.useState('');
 
-  // TODO: Submit API Request
+  // Submit Form
   const formSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
     (event: React.SyntheticEvent) => {
       event.preventDefault();
+      setDisabled(true);
+
+      // TODO: Submit API Request
       console.log('Sumitted');
+      console.log(`Name: ${name.value}`);
+      console.log(`Email: ${email.value}`);
+      console.log(`Phone Number: ${phoneNumber.value}`);
+      console.log(`Comment: ${comment}`);
+    },
+    [name.value, email.value, phoneNumber.value, comment]
+  );
+  const newForm: React.MouseEventHandler = React.useCallback(
+    (event: React.SyntheticEvent) => {
+      // Clear Form Contents
+      setName({ value: '', error: false, helperText: '' });
+      setEmail({ value: '', error: false, helperText: '' });
+      setPhoneNumber({ value: '', error: false, helperText: '' });
+      setComment('');
+
+      // Create new form
+      event.preventDefault();
+      setDisabled(false);
     },
     []
   );
@@ -185,9 +206,15 @@ function ParticipationForm(): React.ReactElement {
             />
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button type="submit" color="primary" variant="contained">
-              Submit
-            </Button>
+            {!disabled ? (
+              <Button type="submit" color="primary" variant="contained">
+                Submit
+              </Button>
+            ) : (
+              <Button color="secondary" variant="contained" onClick={newForm}>
+                Create New Form
+              </Button>
+            )}
           </Box>
         </form>
       </Box>
