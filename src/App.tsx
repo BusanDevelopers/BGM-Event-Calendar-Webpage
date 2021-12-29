@@ -24,12 +24,12 @@ const EventDetail = React.lazy(() => import('./EventDetail'));
 // MUI Theme (Setup Font family)
 declare module '@mui/material/styles' {
   interface TypographyVariantsOptions {
-    body?: React.CSSProperties;
+    calendarBody?: React.CSSProperties;
   }
 }
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
-    body: true;
+    calendarBody: true;
   }
 }
 const breakpoints = {
@@ -51,6 +51,9 @@ const theme = createTheme({
         fontSize: '1.5rem',
       },
     },
+    h5: {
+      fontWeight: 500,
+    },
     subtitle1: {
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
         fontSize: '0.8rem',
@@ -58,7 +61,7 @@ const theme = createTheme({
     },
     body1: {
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
-        fontSize: '0.7rem',
+        fontSize: '0.9rem',
       },
     },
     body2: {
@@ -66,13 +69,13 @@ const theme = createTheme({
         fontSize: '0.6rem',
       },
     },
-    body: {
+    calendarBody: {
       fontWeight: 400,
       fontSize: '1rem',
       lineHeight: 1.5,
       letterSpacing: '0.00938em',
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
-        fontSize: '0.9rem',
+        fontSize: '0.7rem',
       },
     },
     caption: {

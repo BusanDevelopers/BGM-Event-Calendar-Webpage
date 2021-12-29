@@ -116,7 +116,7 @@ function DateEventModal(props: DateEventModalProps): React.ReactElement {
                   >
                     <Typography
                       component="div"
-                      variant="body1"
+                      variant="calendarBody"
                       sx={{ fontSize: '1.1rem', fontWeight: 500 }}
                     >
                       {event.name}

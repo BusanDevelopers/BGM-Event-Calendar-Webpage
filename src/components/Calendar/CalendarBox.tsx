@@ -178,7 +178,7 @@ function CalendarBox(props: CalendarBoxProps): React.ReactElement {
     <Box ref={boxRef} sx={calendarBoxStyle} onClick={handleOpen}>
       {date && (
         <>
-          <Typography variant="body1">{date}</Typography>
+          <Typography variant="calendarBody">{date}</Typography>
           {getEventEntryElem(eventList, numEventEntry)}
           {modalOpen && (
             <DateEventModal
