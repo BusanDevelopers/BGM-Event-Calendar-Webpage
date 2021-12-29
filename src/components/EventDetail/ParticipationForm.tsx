@@ -6,18 +6,10 @@
 
 import React from 'react';
 // Material UI
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 
 // Styles
-const style = {
-  formBox: {
-    margin: '10px',
-    padding: '15px',
-    backgroundColor: 'aliceblue',
-    borderRadius: '10px',
-  },
-  requiredTitle: { color: 'red', marginLeft: '2px' },
-};
+const requiredTitleStyle = { color: 'red', marginLeft: '2px' };
 
 /**
  * React Functional Component to generate Participation Form to get user's input
@@ -43,36 +35,6 @@ function ParticipationForm(): React.ReactElement {
     helperText: '',
   });
   const [comment, setComment] = React.useState('');
-
-  // Submit Form
-  const formSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
-    (event: React.SyntheticEvent) => {
-      event.preventDefault();
-      setDisabled(true);
-
-      // TODO: Submit API Request
-      console.log('Sumitted');
-      console.log(`Name: ${name.value}`);
-      console.log(`Email: ${email.value}`);
-      console.log(`Phone Number: ${phoneNumber.value}`);
-      console.log(`Comment: ${comment}`);
-    },
-    [name.value, email.value, phoneNumber.value, comment]
-  );
-  const newForm: React.MouseEventHandler = React.useCallback(
-    (event: React.SyntheticEvent) => {
-      // Clear Form Contents
-      setName({ value: '', error: false, helperText: '' });
-      setEmail({ value: '', error: false, helperText: '' });
-      setPhoneNumber({ value: '', error: false, helperText: '' });
-      setComment('');
-
-      // Create new form
-      event.preventDefault();
-      setDisabled(false);
-    },
-    []
-  );
 
   // EventHandlers to prevent submit on enter
   const onKeyPress: React.KeyboardEventHandler = React.useCallback(
@@ -115,6 +77,142 @@ function ParticipationForm(): React.ReactElement {
     []
   );
 
+  // Helper Function to check input
+  const nameCheck = React.useCallback((): boolean => {
+    // Name is not valid when it is empty
+    if (name.value === '') {
+      setName((prevName) => {
+        return {
+          ...prevName,
+          error: true,
+          helperText: 'Name is required field!',
+        };
+      });
+      return false;
+    } else if (name.error && name.value !== '') {
+      // When user fix the error (enter name)
+      setName((prevName) => {
+        return { ...prevName, error: false, helperText: '' };
+      });
+      return true;
+    }
+    return true;
+  }, [name]);
+  const emailCheck = React.useCallback((): boolean => {
+    // Email is not valid when it is empty
+    if (email.value === '') {
+      setEmail((prevEmail) => {
+        return {
+          ...prevEmail,
+          error: true,
+          helperText: 'Email is required field!',
+        };
+      });
+      return false;
+    } else if (
+      !String(email.value)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      // Email is not valid when the format is wrong
+      setEmail((prevEmail) => {
+        return {
+          ...prevEmail,
+          error: true,
+          helperText: 'Wrong Email Format',
+        };
+      });
+      return false;
+    } else if (email.error && email.value !== '') {
+      // When user fix the error
+      setEmail((prevEmail) => {
+        return { ...prevEmail, error: false, helperText: '' };
+      });
+      return true;
+    }
+    return true;
+  }, [email]);
+  const phoneNumberCheck = React.useCallback((): boolean => {
+    // Phone number is not valid when it does not match with the pattern
+    // 010xxxxxxxx
+    if (phoneNumber.value !== '') {
+      if (!String(phoneNumber.value).match(/^(010[0-9]{8})$/)) {
+        setPhoneNumber((prevPN) => {
+          return {
+            ...prevPN,
+            error: true,
+            helperText: 'Wrong Phone Number Format',
+          };
+        });
+        return false;
+      } else if (phoneNumber.error) {
+        // When the value is valid but error flag is set
+        // Unset the error flag
+        setPhoneNumber((prevPN) => {
+          return { ...prevPN, error: false, helperText: '' };
+        });
+        return true;
+      }
+    } else {
+      // Empty phone number is valid
+      setPhoneNumber((prevPN) => {
+        return { ...prevPN, error: false, helperText: '' };
+      });
+      return true;
+    }
+    return true;
+  }, [phoneNumber]);
+
+  // Generate style of formBox
+  const theme = useTheme();
+  const formBoxStyleProvider = (error: boolean): React.CSSProperties => {
+    return {
+      margin: '10px',
+      padding: '15px',
+      backgroundColor: 'aliceblue',
+      borderRadius: '10px',
+      border: error ? `2px solid ${theme.palette.error.main}` : undefined,
+    };
+  };
+
+  // Submit Form
+  const formSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
+    (event: React.SyntheticEvent) => {
+      event.preventDefault();
+      setDisabled(true);
+      // Check validity of inputs
+      const validityCheck = [nameCheck(), emailCheck(), phoneNumberCheck()];
+      if (validityCheck.includes(false)) {
+        setDisabled(false);
+        return;
+      }
+
+      // TODO: Submit API Request
+      console.log('Sumitted');
+      console.log(`Name: ${name.value}`);
+      console.log(`Email: ${email.value}`);
+      console.log(`Phone Number: ${phoneNumber.value}`);
+      console.log(`Comment: ${comment}`);
+    },
+    [nameCheck, emailCheck, phoneNumberCheck, name, email, phoneNumber, comment]
+  );
+  const newForm: React.MouseEventHandler = React.useCallback(
+    (event: React.SyntheticEvent) => {
+      // Clear Form Contents
+      setName({ value: '', error: false, helperText: '' });
+      setEmail({ value: '', error: false, helperText: '' });
+      setPhoneNumber({ value: '', error: false, helperText: '' });
+      setComment('');
+
+      // Create new form
+      event.preventDefault();
+      setDisabled(false);
+    },
+    []
+  );
+
   return (
     <>
       <Box sx={{ margin: '15px 0' }}>
@@ -122,16 +220,12 @@ function ParticipationForm(): React.ReactElement {
           Participation Form
         </Typography>
         <form onSubmit={formSubmit}>
-          <Box sx={style.formBox}>
+          <Box sx={formBoxStyleProvider(name.error)}>
             <Box>
               <Typography variant="h6" component="span">
                 Name
               </Typography>
-              <Typography
-                variant="h6"
-                component="span"
-                sx={style.requiredTitle}
-              >
+              <Typography variant="h6" component="span" sx={requiredTitleStyle}>
                 *
               </Typography>
             </Box>
@@ -144,21 +238,17 @@ function ParticipationForm(): React.ReactElement {
               helperText={name.helperText}
               error={name.error}
               margin="normal"
-              required
               onChange={onNameChange}
               onKeyPress={onKeyPress}
+              onBlur={nameCheck}
             />
           </Box>
-          <Box sx={style.formBox}>
+          <Box sx={formBoxStyleProvider(email.error)}>
             <Box>
               <Typography variant="h6" component="span">
                 Email
               </Typography>
-              <Typography
-                variant="h6"
-                component="span"
-                sx={style.requiredTitle}
-              >
+              <Typography variant="h6" component="span" sx={requiredTitleStyle}>
                 *
               </Typography>
             </Box>
@@ -171,12 +261,12 @@ function ParticipationForm(): React.ReactElement {
               helperText={email.helperText}
               error={email.error}
               margin="normal"
-              required
               onChange={onEmailChange}
               onKeyPress={onKeyPress}
+              onBlur={emailCheck}
             />
           </Box>
-          <Box sx={style.formBox}>
+          <Box sx={formBoxStyleProvider(phoneNumber.error)}>
             <Typography variant="h6">Phone Number</Typography>
             <TextField
               disabled={disabled}
@@ -189,9 +279,10 @@ function ParticipationForm(): React.ReactElement {
               margin="normal"
               onChange={onPhoneNumberChange}
               onKeyPress={onKeyPress}
+              onBlur={phoneNumberCheck}
             />
           </Box>
-          <Box sx={style.formBox}>
+          <Box sx={formBoxStyleProvider(false)}>
             <Typography variant="h6">Comment</Typography>
             <TextField
               disabled={disabled}
