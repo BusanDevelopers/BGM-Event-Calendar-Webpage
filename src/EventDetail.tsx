@@ -32,7 +32,6 @@ const styles = {
   backBtn: { height: '32px', width: '32px', color: 'white' },
   detailWrapper: {
     flexGrow: 1,
-    maxHeight: '100%',
     display: 'inline-flex',
     justifyContent: 'center',
   },

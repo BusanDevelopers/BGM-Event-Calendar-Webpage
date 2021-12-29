@@ -6,7 +6,7 @@
 
 import React from 'react';
 // Material UI
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 // Styles
 const style = {
@@ -48,6 +48,17 @@ function ParticipationForm(): React.ReactElement {
   const formSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
     (event: React.SyntheticEvent) => {
       event.preventDefault();
+      console.log('Sumitted');
+    },
+    []
+  );
+
+  // EventHandlers to prevent submit on enter
+  const onKeyPress: React.KeyboardEventHandler = React.useCallback(
+    (event: React.KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
     },
     []
   );
@@ -114,6 +125,7 @@ function ParticipationForm(): React.ReactElement {
               margin="normal"
               required
               onChange={onNameChange}
+              onKeyPress={onKeyPress}
             />
           </Box>
           <Box sx={style.formBox}>
@@ -140,6 +152,7 @@ function ParticipationForm(): React.ReactElement {
               margin="normal"
               required
               onChange={onEmailChange}
+              onKeyPress={onKeyPress}
             />
           </Box>
           <Box sx={style.formBox}>
@@ -154,6 +167,7 @@ function ParticipationForm(): React.ReactElement {
               error={phoneNumber.error}
               margin="normal"
               onChange={onPhoneNumberChange}
+              onKeyPress={onKeyPress}
             />
           </Box>
           <Box sx={style.formBox}>
@@ -169,6 +183,11 @@ function ParticipationForm(): React.ReactElement {
               fullWidth
               onChange={onCommentChange}
             />
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Button type="submit" color="primary" variant="contained">
+              Submit
+            </Button>
           </Box>
         </form>
       </Box>
