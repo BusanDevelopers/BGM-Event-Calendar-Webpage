@@ -18,6 +18,7 @@ import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 // Elements
 import Loading from './components/Loading/Loading';
+import { LoginContextProvider } from './LoginData';
 const Calendar = React.lazy(() => import('./Calendar'));
 const EventDetail = React.lazy(() => import('./EventDetail'));
 
@@ -93,16 +94,18 @@ function App(): React.ReactElement {
   return (
     <React.StrictMode>
       <React.Suspense fallback={<Loading />}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router>
-            <Routes>
-              <Route path="/" element={<Calendar />} />
-              <Route path="/:year-:month" element={<Calendar />} />
-              <Route path="/event/:id" element={<EventDetail />} />
-            </Routes>
-          </Router>
-        </ThemeProvider>
+        <LoginContextProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Router>
+              <Routes>
+                <Route path="/" element={<Calendar />} />
+                <Route path="/:year-:month" element={<Calendar />} />
+                <Route path="/event/:id" element={<EventDetail />} />
+              </Routes>
+            </Router>
+          </ThemeProvider>
+        </LoginContextProvider>
       </React.Suspense>
     </React.StrictMode>
   );
