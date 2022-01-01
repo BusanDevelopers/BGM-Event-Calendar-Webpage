@@ -10,11 +10,14 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
+// Global Style
+import headerStyle from './globalStyle/headerStyle';
+// Custom Hook to load LoginContext
+import { useLoginContext } from './LoginData';
 // Components
 import AccountBtn from './components/AccountBtn';
 import ParticipationForm from './components/EventDetail/ParticipationForm';
-// Global Style
-import headerStyle from './globalStyle/headerStyle';
+const AdminBtn = React.lazy(() => import('./components/EventDetail/AdminBtn'));
 
 // Type definition for EventDetailData
 type EventDetailData = {
@@ -85,6 +88,7 @@ function EventDetail(): React.ReactElement {
     null
   );
   const [dateString, setDateString] = React.useState('');
+  const loginContext = useLoginContext();
 
   // Retrieve eventId from the path
   const { id } = useParams();
@@ -156,6 +160,9 @@ function EventDetail(): React.ReactElement {
                   {eventDetail.detail}
                 </Typography>
               </Box>
+            )}
+            {loginContext.login && (
+              <AdminBtn eventId={id as string} goBackFunc={goBack} />
             )}
             <Divider sx={{ margin: '10px 0' }} />
             <ParticipationForm />

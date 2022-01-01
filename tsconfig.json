@@ -9,5 +9,6 @@
     "sourceMap": true,
     "target": "ESNext"
   },
+  "include": ["**/*"],
   "exclude": ["node_modules", "dist"]
 }

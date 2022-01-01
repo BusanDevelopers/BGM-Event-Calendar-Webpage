@@ -9,7 +9,6 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 // Component
 const DateEventModal = React.lazy(() => import('./DateEventModal'));
-// import DateEventModal from './DateEventModal';
 
 /**
  * Interface for the Component's props
