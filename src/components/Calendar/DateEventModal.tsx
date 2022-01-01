@@ -9,34 +9,23 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // Material UI
 import { Backdrop, Box, Divider, Fade, Modal, Typography } from '@mui/material';
+// Global Style
+import modalStyle from '../../globalStyle/modalStyle';
 
 /**
- * Interface for Component's props
+ * type for Component's props
  */
-interface DateEventModalProps {
+type DateEventModalProps = {
   isOpen: boolean;
   handleClose: () => void;
   dateString: string;
   eventList: { id: string; name: string; category: string }[];
   colorScheme: { [index: string]: string };
-}
+};
 
 const style = {
   modalWrapper: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    height: '75%',
-    width: '90%',
-    maxWidth: '450px',
-    p: 1,
-    bgcolor: 'background.paper',
-    border: '2px solid black',
-    borderRadius: '10px',
-    boxShadow: 24,
-    display: 'flex',
-    flexDirection: 'column',
+    ...modalStyle,
   },
   noEvent: {
     width: '100%',

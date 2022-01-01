@@ -7,11 +7,19 @@
 import React from 'react';
 // Material UI
 import { Box, Button, Divider, Typography } from '@mui/material';
+// Global Type
+import EventDetailData from '../../globalType/EventDetailData';
+// Components
+const AdminModifyDetailModal = React.lazy(
+  () => import('./AdminModifyDetailModal')
+);
 
 // Type for AdminBtn's props
 type AdminBtnProps = {
   eventId: string;
+  eventDetail: EventDetailData;
   goBackFunc: () => void;
+  setModifiedFlagFunc: () => void;
 };
 
 /**
@@ -23,7 +31,9 @@ type AdminBtnProps = {
  * @return {React.ReactElement} Renders AdminBtn
  */
 function AdminBtn(props: AdminBtnProps): React.ReactElement {
-  const { eventId, goBackFunc } = props;
+  const { eventId, eventDetail, goBackFunc, setModifiedFlagFunc } = props;
+  // State
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   // EventHandler for the admin buttons
   const deleteEvent = React.useCallback((): void => {
@@ -31,6 +41,10 @@ function AdminBtn(props: AdminBtnProps): React.ReactElement {
     console.log(`Delete event ${eventId}`);
     goBackFunc();
   }, [goBackFunc, eventId]);
+  const openModifyModal = React.useCallback((): void => setModalOpen(true), []);
+  const closeModifyModal = React.useCallback((): void => {
+    setModalOpen(false);
+  }, []);
 
   return (
     <>
@@ -38,9 +52,23 @@ function AdminBtn(props: AdminBtnProps): React.ReactElement {
       <Box sx={{ margin: '15px 0' }}>
         <Typography variant="h6">Admin Only</Typography>
         <Box>
-          <Button color="primary" variant="contained" sx={{ margin: '5px' }}>
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{ margin: '5px' }}
+            onClick={openModifyModal}
+          >
             Modify Event
           </Button>
+          {modalOpen && (
+            <AdminModifyDetailModal
+              isOpen={modalOpen}
+              eventDetail={eventDetail}
+              eventId={eventId}
+              handleClose={closeModifyModal}
+              setModifiedFlagFunc={setModifiedFlagFunc}
+            />
+          )}
           <Button
             color="secondary"
             variant="contained"

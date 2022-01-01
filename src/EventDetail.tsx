@@ -10,24 +10,15 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
-// Global Style
+// Global Style & Type
 import headerStyle from './globalStyle/headerStyle';
+import EventDetailData from './globalType/EventDetailData';
 // Custom Hook to load LoginContext
 import { useLoginContext } from './LoginData';
 // Components
 import AccountBtn from './components/AccountBtn';
 import ParticipationForm from './components/EventDetail/ParticipationForm';
 const AdminBtn = React.lazy(() => import('./components/EventDetail/AdminBtn'));
-
-// Type definition for EventDetailData
-type EventDetailData = {
-  year: number;
-  month: number;
-  date: number;
-  name: string;
-  category?: string;
-  detail?: string;
-};
 
 // Styles
 const styles = {
@@ -88,6 +79,7 @@ function EventDetail(): React.ReactElement {
     null
   );
   const [dateString, setDateString] = React.useState('');
+  const [eventModified, setEventModified] = React.useState(true);
   const loginContext = useLoginContext();
 
   // Retrieve eventId from the path
@@ -96,8 +88,9 @@ function EventDetail(): React.ReactElement {
     // TODO Redirect to 404 page
   }
 
-  // TODO: API Call
-  React.useEffect(() => {
+  // Function to load event detail
+  const loadDetail = React.useCallback(() => {
+    // TODO: API Call
     const response = data[id as string];
     const eventDate = new Date(
       response.year,
@@ -110,8 +103,19 @@ function EventDetail(): React.ReactElement {
         month: 'short',
       })}. ${String(response.date).padStart(2, '0')}. ${response.year}`
     );
+  }, [id]);
+
+  // Load Detail on first load and when eventModified flag set
+  React.useEffect(() => {
+    if (eventModified) {
+      loadDetail();
+      setEventModified(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [eventModified]);
+
+  // Function to set the eventDetailModify flag
+  const setModifiedFlag = React.useCallback(() => setEventModified(true), []);
 
   /**
    * Function to direct user to previous location
@@ -162,7 +166,12 @@ function EventDetail(): React.ReactElement {
               </Box>
             )}
             {loginContext.login && (
-              <AdminBtn eventId={id as string} goBackFunc={goBack} />
+              <AdminBtn
+                eventId={id as string}
+                eventDetail={eventDetail as EventDetailData}
+                goBackFunc={goBack}
+                setModifiedFlagFunc={setModifiedFlag}
+              />
             )}
             <Divider sx={{ margin: '10px 0' }} />
             <ParticipationForm />
