@@ -25,7 +25,7 @@ function AccountBtn(): React.ReactElement {
   const loginContext = useLoginContext();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  // EventHandler
+  // EventHandler for open/close admin menu
   const handleOpenAdminMenu = React.useCallback(
     (event: React.MouseEvent<HTMLElement>): void => {
       if (loginContext.login) {
@@ -40,6 +40,16 @@ function AccountBtn(): React.ReactElement {
   const handleCloseAdminMenu = React.useCallback((): void => {
     setAnchorEl(null);
   }, []);
+
+  // function to logout from session
+  const logout = React.useCallback((): void => {
+    // TODO: API Call to logout
+    localStorage.removeItem('ADMIN_LOGIN');
+    loginContext.dispatch({ type: 'LOGOUT' });
+
+    // Close Admin Menu
+    handleCloseAdminMenu();
+  }, [loginContext, handleCloseAdminMenu]);
 
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -58,8 +68,10 @@ function AccountBtn(): React.ReactElement {
         <MenuItem>
           <Typography textAlign="center">Change PW</Typography>
         </MenuItem>
-        <MenuItem>
-          <Typography textAlign="center">Logout</Typography>
+        <MenuItem onClick={logout}>
+          <Typography textAlign="center" sx={{ color: 'red', fontWeight: 500 }}>
+            Logout
+          </Typography>
         </MenuItem>
       </Menu>
     </Box>
