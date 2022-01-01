@@ -131,7 +131,7 @@ function CalendarBox(props: CalendarBoxProps): React.ReactElement {
             sx={{ ...styleProvider(event.category) }}
             key={event.id}
           >
-            <Typography component="div" variant="body2" noWrap>
+            <Typography component="div" variant="calendarEvent" noWrap>
               {event.name}
             </Typography>
           </Box>
@@ -148,7 +148,7 @@ function CalendarBox(props: CalendarBoxProps): React.ReactElement {
           >
             <Typography
               component="div"
-              variant="body2"
+              variant="calendarEvent"
               noWrap
               sx={{ fontWeight: 700 }}
             >

@@ -19,18 +19,25 @@ import '@fontsource/ibm-plex-sans-kr/500.css';
 // Elements
 import Loading from './components/Loading/Loading';
 import { LoginContextProvider, useLoginContext } from './LoginData';
+const Login = React.lazy(() => import('./Login'));
 const Calendar = React.lazy(() => import('./Calendar'));
 const EventDetail = React.lazy(() => import('./EventDetail'));
 
 // MUI Theme (Setup Font family)
 declare module '@mui/material/styles' {
   interface TypographyVariantsOptions {
+    calendarDaysOfWeek?: React.CSSProperties;
     calendarBody?: React.CSSProperties;
+    calendarEvent?: React.CSSProperties;
+    eventDetailBody?: React.CSSProperties;
   }
 }
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    calendarDaysOfWeek: true;
     calendarBody: true;
+    calendarEvent: true;
+    eventDetailBody: true;
   }
 }
 const breakpoints = {
@@ -55,19 +62,31 @@ const theme = createTheme({
     h5: {
       fontWeight: 500,
     },
-    subtitle1: {
+    calendarEvent: {
+      fontWeight: 400,
+      fontSize: '0.875rem',
+      lineHeight: 1.43,
+      letterSpacing: '0.01071em',
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
-        fontSize: '0.8rem',
+        fontSize: '0.6rem',
       },
     },
-    body1: {
+    eventDetailBody: {
+      fontWeight: 400,
+      fontSize: '1rem',
+      lineHeight: 1.5,
+      letterSpacing: '0.00938em',
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
         fontSize: '0.9rem',
       },
     },
-    body2: {
+    calendarDaysOfWeek: {
+      fontWeight: 400,
+      fontSize: '1rem',
+      lineHeight: 1.75,
+      letterSpacing: '0.00938em',
       [`@media screen and (max-width: ${breakpoints.values.md}px)`]: {
-        fontSize: '0.6rem',
+        fontSize: '0.8rem',
       },
     },
     calendarBody: {
@@ -127,6 +146,10 @@ function App(): React.ReactElement {
           <Route
             path="/event/:id"
             element={loginContext.initialized ? <EventDetail /> : <Loading />}
+          />
+          <Route
+            path="/login"
+            element={loginContext.initialized ? <Login /> : <Loading />}
           />
         </Routes>
       </Router>

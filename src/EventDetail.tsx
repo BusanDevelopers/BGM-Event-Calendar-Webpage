@@ -146,11 +146,15 @@ function EventDetail(): React.ReactElement {
               <Typography variant="caption">No Category</Typography>
             )}
             <Divider sx={{ margin: '10px 0' }} />
-            <Typography variant="body1">Event Date: {dateString}</Typography>
+            <Typography variant="eventDetailBody">
+              Event Date: {dateString}
+            </Typography>
             {eventDetail.detail && (
               <Box sx={{ margin: '15px 0' }}>
                 <Typography variant="h6">Detail</Typography>
-                <Typography variant="body1">{eventDetail.detail}</Typography>
+                <Typography variant="eventDetailBody">
+                  {eventDetail.detail}
+                </Typography>
               </Box>
             )}
             <Divider sx={{ margin: '10px 0' }} />

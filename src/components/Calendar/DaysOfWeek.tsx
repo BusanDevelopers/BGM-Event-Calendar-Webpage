@@ -28,29 +28,29 @@ function DaysOfWeek(): React.ReactElement {
   return (
     <Box sx={WrapperStyle}>
       <Typography
-        variant="subtitle1"
+        variant="calendarDaysOfWeek"
         align="center"
         sx={{ color: 'red', ...style }}
       >
         Sun
       </Typography>
-      <Typography variant="subtitle1" align="center" sx={style}>
+      <Typography variant="calendarDaysOfWeek" align="center" sx={style}>
         Mon
       </Typography>
-      <Typography variant="subtitle1" align="center" sx={style}>
+      <Typography variant="calendarDaysOfWeek" align="center" sx={style}>
         Tue
       </Typography>
-      <Typography variant="subtitle1" align="center" sx={style}>
+      <Typography variant="calendarDaysOfWeek" align="center" sx={style}>
         Wed
       </Typography>
-      <Typography variant="subtitle1" align="center" sx={style}>
+      <Typography variant="calendarDaysOfWeek" align="center" sx={style}>
         Thu
       </Typography>
-      <Typography variant="subtitle1" align="center" sx={style}>
+      <Typography variant="calendarDaysOfWeek" align="center" sx={style}>
         Fri
       </Typography>
       <Typography
-        variant="subtitle1"
+        variant="calendarDaysOfWeek"
         align="center"
         sx={{ color: 'blue', ...style }}
       >

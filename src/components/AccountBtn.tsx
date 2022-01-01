@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // Material UI
 import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 // Material UI Icon
@@ -20,6 +20,7 @@ import { useLoginContext } from '../LoginData';
  */
 function AccountBtn(): React.ReactElement {
   const navigate = useNavigate();
+  const location = useLocation();
   // State
   const loginContext = useLoginContext();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -31,10 +32,10 @@ function AccountBtn(): React.ReactElement {
         // When admin logged in, open admin menu
         setAnchorEl(event.currentTarget);
       } else {
-        navigate('/login');
+        navigate('/login', { state: { prevLocation: location.pathname } });
       }
     },
-    [loginContext.login, navigate]
+    [loginContext.login, navigate, location.pathname]
   );
   const handleCloseAdminMenu = React.useCallback((): void => {
     setAnchorEl(null);
@@ -64,4 +65,4 @@ function AccountBtn(): React.ReactElement {
   );
 }
 
-export default AccountBtn;
+export default React.memo(AccountBtn);
