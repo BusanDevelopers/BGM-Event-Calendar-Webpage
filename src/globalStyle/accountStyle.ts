@@ -26,6 +26,12 @@ const accountStyles = {
     flexDirection: 'column',
     width: '100%',
   },
+  ButtonWrapper: {
+    margin: '5px 0',
+    width: '100%',
+    display: 'inline-flex',
+    justifyContent: 'space-between',
+  },
 };
 
 export default accountStyles;

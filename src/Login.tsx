@@ -139,15 +139,26 @@ function Login(): React.ReactElement {
                 onChange={onPasswordChange}
                 sx={{ margin: '5px 0', width: '100%' }}
               />
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                disabled={disabled}
-                sx={{ margin: '5px 0', width: '100%' }}
-              >
-                Login
-              </Button>
+              <Box sx={styles.ButtonWrapper}>
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  disabled={disabled}
+                  sx={{ width: 'calc(50% - 10px)' }}
+                >
+                  Login
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  disabled={disabled}
+                  sx={{ width: 'calc(50% - 10px)' }}
+                  onClick={goBack}
+                >
+                  Cancel
+                </Button>
+              </Box>
             </form>
           </Box>
           <Snackbar

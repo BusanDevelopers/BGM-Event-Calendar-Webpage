@@ -127,7 +127,7 @@ function ChangePW(): React.ReactElement {
         <>
           <Box sx={styles.Wrapper}>
             <Typography variant="h5" sx={{ mb: '10px' }}>
-              Admin Login
+              Change Password
             </Typography>
             <form onSubmit={formSubmit} style={styles.FormWrapper}>
               <TextField
@@ -166,15 +166,26 @@ function ChangePW(): React.ReactElement {
                 onChange={onConfirmPWChange}
                 sx={{ margin: '5px 0', width: '100%' }}
               />
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                disabled={disabled}
-                sx={{ margin: '5px 0', width: '100%' }}
-              >
-                Login
-              </Button>
+              <Box sx={styles.ButtonWrapper}>
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  disabled={disabled}
+                  sx={{ width: 'calc(50% - 10px)' }}
+                >
+                  Change PW
+                </Button>
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  disabled={disabled}
+                  sx={{ width: 'calc(50% - 10px)' }}
+                  onClick={goBack}
+                >
+                  Cancel
+                </Button>
+              </Box>
             </form>
           </Box>
           <Snackbar
