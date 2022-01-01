@@ -19,18 +19,28 @@ import {
 import { AccountCircle } from '@mui/icons-material';
 // Custom Hook to load LoginContext
 import { useLoginContext } from '../LoginData';
+// Components
+const AddEventModal = React.lazy(() => import('./AddEventModal'));
+
+// Type for the account button
+type AccountBtnProps = {
+  setModifiedFlagFunc?: () => void;
+};
 
 /**
  * React Functional Component to generate account button
  *
+ * @param {AccountBtnProps} props Properties that passed from the parent
+ *   Component.
  * @return {React.ReactElement} Renders account button
  */
-function AccountBtn(): React.ReactElement {
+function AccountBtn(props: AccountBtnProps): React.ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
   // State
   const loginContext = useLoginContext();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [addEventModalOpen, setAddEventModalOpen] = React.useState(false);
 
   // EventHandler for open/close admin menu
   const handleOpenAdminMenu = React.useCallback(
@@ -63,6 +73,16 @@ function AccountBtn(): React.ReactElement {
     navigate('/changePW', { state: { prevLocation: location.pathname } });
   }, [location.pathname, navigate]);
 
+  // Function to open/close addEvent Modal
+  const openAddEventModal = React.useCallback((): void => {
+    setAddEventModalOpen(true);
+    handleCloseAdminMenu();
+  }, [handleCloseAdminMenu]);
+  const closeAddEventModal = React.useCallback(
+    (): void => setAddEventModalOpen(false),
+    []
+  );
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenAdminMenu} sx={{ padding: '4px' }}>
@@ -78,7 +98,9 @@ function AccountBtn(): React.ReactElement {
         onClose={handleCloseAdminMenu}
       >
         <MenuItem>
-          <Typography textAlign="center">New Event</Typography>
+          <Typography textAlign="center" onClick={openAddEventModal}>
+            New Event
+          </Typography>
         </MenuItem>
         <Divider />
         <MenuItem onClick={changePW}>
@@ -90,6 +112,13 @@ function AccountBtn(): React.ReactElement {
           </Typography>
         </MenuItem>
       </Menu>
+      {addEventModalOpen && (
+        <AddEventModal
+          isOpen={addEventModalOpen}
+          handleClose={closeAddEventModal}
+          setModifiedFlagFunc={props.setModifiedFlagFunc}
+        />
+      )}
     </Box>
   );
 }

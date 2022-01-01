@@ -59,6 +59,7 @@ function Calendar(): React.ReactElement {
   const [calendarData, setCalendarData] = React.useState([
     { date: -1, eventList: [] },
   ]);
+  const [modifyFlag, setModifyFlag] = React.useState(true);
 
   const navigate = useNavigate();
   // Retrieve year and month from path
@@ -80,51 +81,54 @@ function Calendar(): React.ReactElement {
   const nRow = Math.ceil((startDayIdx + numDates) / 7);
 
   React.useEffect(() => {
-    // Draw Layout
-    const tempData = new Array(nRow * 7).fill({
-      date: undefined,
-      eventList: [],
-    });
-    for (let i = startDayIdx; i < startDayIdx + numDates; ++i) {
-      tempData[i] = { date: i + 1 - startDayIdx, eventList: [] };
-    }
-    setCalendarData(tempData);
+    if (modifyFlag) {
+      // Draw Layout
+      const tempData = new Array(nRow * 7).fill({
+        date: undefined,
+        eventList: [],
+      });
+      for (let i = startDayIdx; i < startDayIdx + numDates; ++i) {
+        tempData[i] = { date: i + 1 - startDayIdx, eventList: [] };
+      }
+      setCalendarData(tempData);
 
-    // TODO: API Call
-    const completeData = [...tempData];
-    const response = {
-      numEvent: 3,
-      eventList: [
-        {
-          id: 1,
-          name: '디스코드 비대면 모각코',
-          date: 14,
-        },
-        {
-          id: 2,
-          name: '서면 스타벅스 정기 모임',
-          date: 24,
-          category: '정기모임',
-        },
-        {
-          id: 3,
-          name: 'mm 정기모임 - 당신이 사랑하는 프로그래밍 언어는?',
-          date: 28,
-          category: '비대면',
-        },
-        {
-          id: 4,
-          name: '디스코드 비대면 모각코',
-          date: 28,
-        },
-      ],
-    };
-    response.eventList.forEach((event) => {
-      const idx = startDayIdx - 1 + event.date;
-      completeData[idx].eventList = [...completeData[idx].eventList, event];
-    });
-    setCalendarData(completeData);
-  }, [nRow, numDates, startDayIdx]);
+      // TODO: API Call
+      const completeData = [...tempData];
+      const response = {
+        numEvent: 3,
+        eventList: [
+          {
+            id: 1,
+            name: '디스코드 비대면 모각코',
+            date: 14,
+          },
+          {
+            id: 2,
+            name: '서면 스타벅스 정기 모임',
+            date: 24,
+            category: '정기모임',
+          },
+          {
+            id: 3,
+            name: 'mm 정기모임 - 당신이 사랑하는 프로그래밍 언어는?',
+            date: 28,
+            category: '비대면',
+          },
+          {
+            id: 4,
+            name: '디스코드 비대면 모각코',
+            date: 28,
+          },
+        ],
+      };
+      response.eventList.forEach((event) => {
+        const idx = startDayIdx - 1 + event.date;
+        completeData[idx].eventList = [...completeData[idx].eventList, event];
+      });
+      setCalendarData(completeData);
+      setModifyFlag(false);
+    }
+  }, [nRow, numDates, startDayIdx, modifyFlag]);
 
   /**
    * Helper method to change month
@@ -136,10 +140,14 @@ function Calendar(): React.ReactElement {
       const moveTargetMonthDate = new Date(year, month + move);
       const newYear = moveTargetMonthDate.getFullYear();
       const newMonth = moveTargetMonthDate.getMonth() + 1;
+      setModifyFlag(true);
       navigate(`../${newYear}-${newMonth}`);
     },
     [year, month, navigate]
   );
+
+  // Function used to notify calendar screen to be refreshed
+  const notifyAddEvent = React.useCallback((): void => setModifyFlag(true), []);
 
   return (
     <Grid
@@ -168,7 +176,7 @@ function Calendar(): React.ReactElement {
               <ArrowForwardIosRounded />
             </IconButton>
           </Stack>
-          <AccountBtn />
+          <AccountBtn setModifiedFlagFunc={notifyAddEvent} />
         </Box>
       </Grid>
       <Grid item sx={{ backgroundColor: 'gray' }}>
