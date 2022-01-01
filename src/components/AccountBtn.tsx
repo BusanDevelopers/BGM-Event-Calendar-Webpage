@@ -47,6 +47,7 @@ function AccountBtn(): React.ReactElement {
         <AccountCircle sx={{ height: '32px', width: '32px', color: 'white' }} />
       </IconButton>
       <Menu
+        sx={{ mt: '35px' }}
         anchorEl={anchorEl}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         keepMounted
