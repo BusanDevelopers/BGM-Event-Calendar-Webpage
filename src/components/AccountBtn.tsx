@@ -5,10 +5,13 @@
  */
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 // Material UI
-import { IconButton } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 // Material UI Icon
 import { AccountCircle } from '@mui/icons-material';
+// Custom Hook to load LoginContext
+import { useLoginContext } from '../LoginData';
 
 /**
  * React Functional Component to generate account button
@@ -16,10 +19,48 @@ import { AccountCircle } from '@mui/icons-material';
  * @return {React.ReactElement} Renders account button
  */
 function AccountBtn(): React.ReactElement {
+  const navigate = useNavigate();
+  // State
+  const loginContext = useLoginContext();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  // EventHandler
+  const handleOpenAdminMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLElement>): void => {
+      if (loginContext.login) {
+        // When admin logged in, open admin menu
+        setAnchorEl(event.currentTarget);
+      } else {
+        navigate('/login');
+      }
+    },
+    [loginContext.login, navigate]
+  );
+  const handleCloseAdminMenu = React.useCallback((): void => {
+    setAnchorEl(null);
+  }, []);
+
   return (
-    <IconButton sx={{ padding: '4px' }}>
-      <AccountCircle sx={{ height: '32px', width: '32px', color: 'white' }} />
-    </IconButton>
+    <Box sx={{ flexGrow: 0 }}>
+      <IconButton onClick={handleOpenAdminMenu} sx={{ padding: '4px' }}>
+        <AccountCircle sx={{ height: '32px', width: '32px', color: 'white' }} />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        keepMounted
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={Boolean(anchorEl)}
+        onClose={handleCloseAdminMenu}
+      >
+        <MenuItem>
+          <Typography textAlign="center">Change PW</Typography>
+        </MenuItem>
+        <MenuItem>
+          <Typography textAlign="center">Logout</Typography>
+        </MenuItem>
+      </Menu>
+    </Box>
   );
 }
 

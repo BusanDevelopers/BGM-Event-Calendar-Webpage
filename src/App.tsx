@@ -18,7 +18,7 @@ import '@fontsource/ibm-plex-sans-kr/400.css';
 import '@fontsource/ibm-plex-sans-kr/500.css';
 // Elements
 import Loading from './components/Loading/Loading';
-import { LoginContextProvider } from './LoginData';
+import { LoginContextProvider, useLoginContext } from './LoginData';
 const Calendar = React.lazy(() => import('./Calendar'));
 const EventDetail = React.lazy(() => import('./EventDetail'));
 
@@ -86,29 +86,69 @@ const theme = createTheme({
 });
 
 /**
+ * React functional component to render the application's content
+ *
+ * @return {React.ReactElement} The content of the application
+ */
+function App(): React.ReactElement {
+  // State
+  const loginContext = useLoginContext();
+
+  // Initialize Appl.ication
+  React.useEffect(() => {
+    // When application not initialized
+    if (!loginContext.initialized) {
+      // check whether admin token alive or not
+      if (localStorage.getItem('ADMIN_LOGIN') === 'yes') {
+        // TODO: API Call to Renew Token
+        loginContext.dispatch({ type: 'INITIALIZE', login: true });
+        // TODO: If failed, unset localStorage flag
+      } else {
+        localStorage.removeItem('ADMIN_LOGIN');
+        loginContext.dispatch({ type: 'INITIALIZE', login: false });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={loginContext.initialized ? <Calendar /> : <Loading />}
+          />
+          <Route
+            path="/:year-:month"
+            element={loginContext.initialized ? <Calendar /> : <Loading />}
+          />
+          <Route
+            path="/event/:id"
+            element={loginContext.initialized ? <EventDetail /> : <Loading />}
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
+  );
+}
+
+/**
  * React functional component to render the application's entry point
  *
  * @return {React.ReactElement} The entry point of the application
  */
-function App(): React.ReactElement {
+function AppWrapper(): React.ReactElement {
   return (
     <React.StrictMode>
       <React.Suspense fallback={<Loading />}>
         <LoginContextProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Router>
-              <Routes>
-                <Route path="/" element={<Calendar />} />
-                <Route path="/:year-:month" element={<Calendar />} />
-                <Route path="/event/:id" element={<EventDetail />} />
-              </Routes>
-            </Router>
-          </ThemeProvider>
+          <App />
         </LoginContextProvider>
       </React.Suspense>
     </React.StrictMode>
   );
 }
 
-render(<App />, document.getElementById('root'));
+render(<AppWrapper />, document.getElementById('root'));
