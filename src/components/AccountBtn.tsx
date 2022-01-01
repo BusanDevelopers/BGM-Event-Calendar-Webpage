@@ -7,7 +7,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // Material UI
-import { Box, IconButton, Menu, MenuItem, Typography } from '@mui/material';
+import {
+  Box,
+  Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from '@mui/material';
 // Material UI Icon
 import { AccountCircle } from '@mui/icons-material';
 // Custom Hook to load LoginContext
@@ -51,6 +58,11 @@ function AccountBtn(): React.ReactElement {
     handleCloseAdminMenu();
   }, [loginContext, handleCloseAdminMenu]);
 
+  // function to move to the changePW screen
+  const changePW = React.useCallback((): void => {
+    navigate('/changePW', { state: { prevLocation: location.pathname } });
+  }, [location.pathname, navigate]);
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <IconButton onClick={handleOpenAdminMenu} sx={{ padding: '4px' }}>
@@ -66,6 +78,10 @@ function AccountBtn(): React.ReactElement {
         onClose={handleCloseAdminMenu}
       >
         <MenuItem>
+          <Typography textAlign="center">New Event</Typography>
+        </MenuItem>
+        <Divider />
+        <MenuItem onClick={changePW}>
           <Typography textAlign="center">Change PW</Typography>
         </MenuItem>
         <MenuItem onClick={logout}>

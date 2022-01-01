@@ -19,9 +19,10 @@ import '@fontsource/ibm-plex-sans-kr/500.css';
 // Elements
 import Loading from './components/Loading/Loading';
 import { LoginContextProvider, useLoginContext } from './LoginData';
-const Login = React.lazy(() => import('./Login'));
 const Calendar = React.lazy(() => import('./Calendar'));
 const EventDetail = React.lazy(() => import('./EventDetail'));
+const Login = React.lazy(() => import('./Login'));
+const ChangePW = React.lazy(() => import('./ChangePW'));
 
 // MUI Theme (Setup Font family)
 declare module '@mui/material/styles' {
@@ -150,6 +151,10 @@ function App(): React.ReactElement {
           <Route
             path="/login"
             element={loginContext.initialized ? <Login /> : <Loading />}
+          />
+          <Route
+            path="/changePW"
+            element={loginContext.initialized ? <ChangePW /> : <Loading />}
           />
         </Routes>
       </Router>

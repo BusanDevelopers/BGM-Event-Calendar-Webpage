@@ -1,5 +1,5 @@
 /**
- * Admin Login Page
+ * Admin Change Password Page
  *
  * @author Hyecheol (Jerry) Jang <hyecheol123@gmail.com>
  */
@@ -15,24 +15,25 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-// Custom Hook to load LoginContext
+// Custom Hooks to load LoginContext
 import { useLoginContext } from './LoginData';
 // Styles
 import styles from './globalStyle/accountStyle';
 
 /**
- * React Functional Component to generate login view
+ * React Functional Component to generate Change Password view
  *
- * @return {React.ReactElement} Renders Login view
+ * @return {React.ReactElement} Renders Change Password View
  */
-function Login(): React.ReactElement {
+function ChangePW(): React.ReactElement {
   const { state } = useLocation();
   const navigate = useNavigate();
   // State
   const loginContext = useLoginContext();
   const [disabled, setDisabled] = React.useState(false);
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [currentPW, setCurrentPW] = React.useState('');
+  const [newPW, setNewPW] = React.useState('');
+  const [confirmPW, setConfirmPW] = React.useState('');
   const [error, setError] = React.useState({ error: false, msg: '' });
 
   // Function to direct user to previous location
@@ -45,32 +46,46 @@ function Login(): React.ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // EventHandlers to modify form input
-  const onUsernameChange: React.ChangeEventHandler = React.useCallback(
-    (event: React.ChangeEvent) => {
-      setUsername((event.target as HTMLInputElement).value);
-    },
+  // EventHandlers to modify form inputs
+  const onCurrentPWChange: React.ChangeEventHandler = React.useCallback(
+    (event: React.ChangeEvent) =>
+      setCurrentPW((event.target as HTMLInputElement).value),
     []
   );
-  const onPasswordChange: React.ChangeEventHandler = React.useCallback(
-    (event: React.ChangeEvent) => {
-      setPassword((event.target as HTMLInputElement).value);
-    },
+  const onNewPWChange: React.ChangeEventHandler = React.useCallback(
+    (event: React.ChangeEvent) =>
+      setNewPW((event.target as HTMLInputElement).value),
+    []
+  );
+  const onConfirmPWChange: React.ChangeEventHandler = React.useCallback(
+    (event: React.ChangeEvent) =>
+      setConfirmPW((event.target as HTMLInputElement).value),
     []
   );
 
   // Helper function to check input
   const inputCheck = React.useCallback((): boolean => {
-    // Username is not valid when it is empty
-    if (username === '' || password === '') {
+    if (currentPW === '' || newPW === '' || confirmPW === '') {
+      // All field should not be empty
+      setError({ error: true, msg: 'All fields are required!!' });
+      return false;
+    } else if (currentPW === newPW) {
+      // current PW and new PW cannot be same
       setError({
         error: true,
-        msg: 'Both username and password are required field!',
+        msg: 'Current password and new password should be different',
+      });
+      return false;
+    } else if (newPW !== confirmPW) {
+      // new password and confirm password is different
+      setError({
+        error: true,
+        msg: 'New password and confirm password are different. Please check again',
       });
       return false;
     }
     return true;
-  }, [username, password]);
+  }, [confirmPW, currentPW, newPW]);
 
   // Submit Event Handler
   const formSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(
@@ -83,15 +98,13 @@ function Login(): React.ReactElement {
         return;
       }
 
-      // TODO: Submit API request
-      console.log('Login Request');
-      console.log(username);
-      console.log(password);
-      localStorage.setItem('ADMIN_LOGIN', 'yes');
-      loginContext.dispatch({ type: 'LOGIN' });
+      // TODO: Submit API Request
+      console.log('Change PW Request');
+      console.log(currentPW);
+      console.log(newPW, confirmPW);
       goBack();
     },
-    [inputCheck, loginContext, password, username, goBack]
+    [confirmPW, currentPW, newPW, goBack, inputCheck]
   );
 
   // EventHandler to close alert
@@ -99,9 +112,10 @@ function Login(): React.ReactElement {
     setError({ error: false, msg: '' });
   }, []);
 
-  // Check for whether user already logged in or not
+  // Check whether user is signed in or not
+  // Only allow for signed in admin user
   React.useEffect(() => {
-    if (loginContext.login) {
+    if (!loginContext.login) {
       goBack();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,7 +123,7 @@ function Login(): React.ReactElement {
 
   return (
     <>
-      {!loginContext.login && (
+      {loginContext.login && (
         <>
           <Box sx={styles.Wrapper}>
             <Typography variant="h5" sx={{ mb: '10px' }}>
@@ -121,10 +135,11 @@ function Login(): React.ReactElement {
                 size="small"
                 variant="outlined"
                 color="primary"
-                label="username"
+                label="Current Password"
+                type="password"
                 margin="normal"
-                value={username}
-                onChange={onUsernameChange}
+                value={currentPW}
+                onChange={onCurrentPWChange}
                 sx={{ margin: '5px 0', width: '100%' }}
               />
               <TextField
@@ -132,11 +147,23 @@ function Login(): React.ReactElement {
                 size="small"
                 variant="outlined"
                 color="primary"
-                label="password"
+                label="New Password"
                 type="password"
                 margin="normal"
-                value={password}
-                onChange={onPasswordChange}
+                value={newPW}
+                onChange={onNewPWChange}
+                sx={{ margin: '5px 0', width: '100%' }}
+              />
+              <TextField
+                disabled={disabled}
+                size="small"
+                variant="outlined"
+                color="primary"
+                label="Confirm Password"
+                type="password"
+                margin="normal"
+                value={confirmPW}
+                onChange={onConfirmPWChange}
                 sx={{ margin: '5px 0', width: '100%' }}
               />
               <Button
@@ -166,4 +193,4 @@ function Login(): React.ReactElement {
   );
 }
 
-export default Login;
+export default ChangePW;
