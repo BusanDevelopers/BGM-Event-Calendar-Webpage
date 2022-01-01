@@ -77,6 +77,9 @@ function AdminBtn(props: AdminBtnProps): React.ReactElement {
           >
             Delete Event
           </Button>
+          <Button color="tertiary" variant="contained" sx={{ margin: '5px' }}>
+            View Participants
+          </Button>
         </Box>
       </Box>
     </>

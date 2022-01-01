@@ -10,6 +10,7 @@ import { render } from 'react-dom';
 // Material UI
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { green } from '@mui/material/colors';
 // Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Font
@@ -24,13 +25,19 @@ const EventDetail = React.lazy(() => import('./EventDetail'));
 const Login = React.lazy(() => import('./Login'));
 const ChangePW = React.lazy(() => import('./ChangePW'));
 
-// MUI Theme (Setup Font family)
+// MUI Theme (Setup Font family and Palette Color)
 declare module '@mui/material/styles' {
   interface TypographyVariantsOptions {
     calendarDaysOfWeek?: React.CSSProperties;
     calendarBody?: React.CSSProperties;
     calendarEvent?: React.CSSProperties;
     eventDetailBody?: React.CSSProperties;
+  }
+  interface Palette {
+    tertiary: Palette['primary'];
+  }
+  interface PaletteOptions {
+    tertiary?: PaletteOptions['primary'];
   }
 }
 declare module '@mui/material/Typography' {
@@ -39,6 +46,11 @@ declare module '@mui/material/Typography' {
     calendarBody: true;
     calendarEvent: true;
     eventDetailBody: true;
+  }
+}
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    tertiary: true;
   }
 }
 const breakpoints = {
@@ -101,6 +113,14 @@ const theme = createTheme({
     },
     caption: {
       fontSize: '0.8rem',
+    },
+  },
+  palette: {
+    tertiary: {
+      light: green[300],
+      main: green[600],
+      dark: green[800],
+      contrastText: '#fff',
     },
   },
 });
