@@ -146,8 +146,32 @@ function EventParticipants(): React.ReactElement {
     // TODO Redirect to 404 page
   }
 
-  // TODO: Load Event Detail and Participants Detail
-  // TODO: On First Load
+  // Function to load Event Detail and Participants Detail
+  const loadData = React.useCallback(() => {
+    // TODO: API Call
+    const eventResponse = eventData[id as string];
+    const participationResponse = participantsData[id as string];
+    const eventDate = new Date(
+      eventResponse.year,
+      eventResponse.month - 1,
+      eventResponse.date
+    );
+    setEventDetail(eventResponse);
+    setDateString(
+      String.prototype.concat(
+        `${eventDate.toLocaleDateString('en-US', { month: 'short' })}. `,
+        `${String(eventResponse.date).padStart(2, '0')}. `,
+        eventResponse.year.toString()
+      )
+    );
+    setParticipantsDetail(participationResponse);
+  }, [id]);
+
+  // On First Load
+  React.useEffect(() => {
+    loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Function to direct user to previous location
   const goBack = React.useCallback((): void => {
