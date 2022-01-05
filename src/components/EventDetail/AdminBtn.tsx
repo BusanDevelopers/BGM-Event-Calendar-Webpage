@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 // Material UI
 import { Box, Button, Divider, Typography } from '@mui/material';
 // Global Type
@@ -32,6 +33,8 @@ type AdminBtnProps = {
  */
 function AdminBtn(props: AdminBtnProps): React.ReactElement {
   const { eventId, eventDetail, goBackFunc, setModifiedFlagFunc } = props;
+  const navigate = useNavigate();
+  const location = useLocation();
   // State
   const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -45,6 +48,13 @@ function AdminBtn(props: AdminBtnProps): React.ReactElement {
   const closeModifyModal = React.useCallback((): void => {
     setModalOpen(false);
   }, []);
+  const moveEventParticipantsView = React.useCallback(
+    (): void =>
+      navigate('./participants', {
+        state: { prevLocation: location.pathname },
+      }),
+    [location.pathname, navigate]
+  );
 
   return (
     <>
@@ -77,7 +87,12 @@ function AdminBtn(props: AdminBtnProps): React.ReactElement {
           >
             Delete Event
           </Button>
-          <Button color="tertiary" variant="contained" sx={{ margin: '5px' }}>
+          <Button
+            color="tertiary"
+            variant="contained"
+            onClick={moveEventParticipantsView}
+            sx={{ margin: '5px' }}
+          >
             View Participants
           </Button>
         </Box>

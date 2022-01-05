@@ -22,6 +22,7 @@ import Loading from './components/Loading/Loading';
 import { LoginContextProvider, useLoginContext } from './LoginData';
 const Calendar = React.lazy(() => import('./Calendar'));
 const EventDetail = React.lazy(() => import('./EventDetail'));
+const EventParticipants = React.lazy(() => import('./EventParticipants'));
 const Login = React.lazy(() => import('./Login'));
 const ChangePW = React.lazy(() => import('./ChangePW'));
 
@@ -167,6 +168,12 @@ function App(): React.ReactElement {
           <Route
             path="/event/:id"
             element={loginContext.initialized ? <EventDetail /> : <Loading />}
+          />
+          <Route
+            path="/event/:id/participants"
+            element={
+              loginContext.initialized ? <EventParticipants /> : <Loading />
+            }
           />
           <Route
             path="/login"
