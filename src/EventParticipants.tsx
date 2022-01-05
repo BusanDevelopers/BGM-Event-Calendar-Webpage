@@ -10,19 +10,14 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
-// Global Style & Type
+// Global Style, Type, and Data
 import headerStyle from './globalStyle/headerStyle';
 import EventDetailData from './globalType/EventDetailData';
+import eventData from './globalData/eventDetail';
 // Custom Hook to load LoginContext
 import { useLoginContext } from './LoginData';
 // Components
 import AccountBtn from './components/AccountBtn';
-
-const styles = {
-  gridWrapper: { height: '100%' },
-  backBtn: { height: '32px', width: '32px', color: 'white' },
-  ...headerStyle,
-};
 
 type participantInfo = {
   id: number | string;
@@ -34,7 +29,97 @@ type participantInfo = {
 
 type ParticipantsDetailData = {
   numParticipants: number;
-  participantsList: participantInfo[];
+  participantsList?: participantInfo[];
+};
+
+const styles = {
+  gridWrapper: { height: '100%' },
+  backBtn: { height: '32px', width: '32px', color: 'white' },
+  ...headerStyle,
+};
+
+const participantsData: { [index: string]: ParticipantsDetailData } = {
+  1: {
+    numParticipants: 1,
+    participantsList: [
+      {
+        id: 1,
+        participantName: '홍길동',
+        email: 'gildong.hong@gmail.com',
+        comment:
+          '디스코드 신규 가입 관련 이메일을 보냈습니다. 확인 부탁드립니다.',
+      },
+    ],
+  },
+  2: {
+    numParticipants: 3,
+    participantsList: [
+      {
+        id: 2,
+        participantName: '김철수',
+        email: 'cskim12@naver.com',
+        phoneNumber: '01012345678',
+      },
+      {
+        id: 4,
+        participantName: '최영희',
+        email: 'yhchoi@hanmail.net',
+        comment: '도착예정시간은 12시 입니다.',
+      },
+      {
+        id: 5,
+        participantName: 'James Lee',
+        email: 'superjames@gmail.com',
+        phoneNumber: '01056781234',
+        comment: '11시 30분쯤 도착할 것 같습니다. 자차 들고갑니다.',
+      },
+    ],
+  },
+  3: {
+    numParticipants: 6,
+    participantsList: [
+      {
+        id: 3,
+        participantName: '김철수',
+        email: 'cskim12@naver.com',
+        comment: '음 아이디는 cskim12입니다.',
+      },
+      {
+        id: 6,
+        participantName: 'James Lee',
+        email: 'superjames@gmail.com',
+        comment: 'mm 아이디: superjames',
+      },
+      {
+        id: 7,
+        participantName: '최영희',
+        email: 'yhchoi@hanmail.net',
+        comment: 'mm 계정은 yhchoi입니다.',
+      },
+      {
+        id: 8,
+        participantName: '홍길동',
+        email: 'gildong.hong@gmail.com',
+        comment: 'mm: @gildongHong',
+      },
+      {
+        id: 9,
+        participantName: '정현우',
+        email: 'gusdn@gmail.com',
+        comment: 'mm: @gusdn123',
+      },
+      {
+        id: 10,
+        participantName: '박지영',
+        email: 'jsp8392@naver.com',
+        phoneNumber: '01012348392',
+        comment: 'mm을 아직 가입하지 않았습니다.',
+      },
+    ],
+  },
+  4: {
+    numParticipants: 0,
+  },
 };
 
 /**
