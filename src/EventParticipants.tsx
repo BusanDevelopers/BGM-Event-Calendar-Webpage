@@ -11,7 +11,7 @@ import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
 // Global Style, Type, and Data
-import headerStyle from './globalStyle/headerStyle';
+import detailPageStyle from './globalStyle/detailPageStyle';
 import EventDetailData from './globalType/EventDetailData';
 import eventData from './globalData/eventDetail';
 // Custom Hook to load LoginContext
@@ -33,9 +33,14 @@ type ParticipantsDetailData = {
 };
 
 const styles = {
-  gridWrapper: { height: '100%' },
-  backBtn: { height: '32px', width: '32px', color: 'white' },
-  ...headerStyle,
+  eventInfoWrapper: {
+    width: '100%',
+    padding: '20px 7px',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  eventInfo: { width: '100%', maxWidth: '800px', alignSelf: 'center' },
+  ...detailPageStyle,
 };
 
 const participantsData: { [index: string]: ParticipantsDetailData } = {
@@ -194,41 +199,55 @@ function EventParticipants(): React.ReactElement {
   return (
     <>
       {loginContext.login && (
-        <>
-          <Grid
-            container
-            direction="column"
-            wrap="nowrap"
-            sx={styles.gridWrapper}
-          >
-            <Grid item>
-              <Box sx={styles.headerWrapper}>
-                <IconButton sx={{ padding: '4px' }} onClick={goBack}>
-                  <ArrowCircleLeftOutlined sx={styles.backBtn} />
-                </IconButton>
-                <Box
-                  sx={{ ...styles.headerTitleWrapper, display: 'inline-flex' }}
+        <Grid
+          container
+          direction="column"
+          wrap="nowrap"
+          sx={styles.gridWrapper}
+        >
+          <Grid item>
+            <Box sx={styles.headerWrapper}>
+              <IconButton sx={{ padding: '4px' }} onClick={goBack}>
+                <ArrowCircleLeftOutlined sx={styles.backBtn} />
+              </IconButton>
+              <Box
+                sx={{ ...styles.headerTitleWrapper, display: 'inline-flex' }}
+              >
+                <Typography
+                  variant="h6"
+                  component="div"
+                  sx={{ color: 'white' }}
                 >
-                  <Typography
-                    variant="h6"
-                    component="div"
-                    sx={{ color: 'white' }}
-                  >
-                    Participants List
+                  Participants List
+                </Typography>
+              </Box>
+              <AccountBtn />
+            </Box>
+          </Grid>
+          {eventDetail && (
+            <Grid item sx={styles.detailWrapper}>
+              <Box sx={styles.eventInfoWrapper}>
+                <Box sx={styles.eventInfo}>
+                  <Typography variant="h4">{eventDetail.name}</Typography>
+                  {eventDetail.category ? (
+                    <Typography variant="caption" component="div">
+                      {eventDetail.category}
+                    </Typography>
+                  ) : (
+                    <Typography variant="caption" component="div">
+                      No Category
+                    </Typography>
+                  )}
+                  <Typography variant="eventDetailBody" component="div">
+                    Event Date: {dateString}
                   </Typography>
                 </Box>
-                <AccountBtn />
-              </Box>
-            </Grid>
-            {eventDetail && (
-              <>
-                <Grid item></Grid>
                 <Divider sx={{ margin: '10px 0' }} />
                 {participantsDetail && <Grid item></Grid>}
-              </>
-            )}
-          </Grid>
-        </>
+              </Box>
+            </Grid>
+          )}
+        </Grid>
       )}
     </>
   );

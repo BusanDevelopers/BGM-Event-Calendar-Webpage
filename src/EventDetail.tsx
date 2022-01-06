@@ -11,7 +11,7 @@ import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
 // Global Style, Type, and Data
-import headerStyle from './globalStyle/headerStyle';
+import styles from './globalStyle/detailPageStyle';
 import EventDetailData from './globalType/EventDetailData';
 import data from './globalData/eventDetail';
 // Custom Hook to load LoginContext
@@ -20,18 +20,6 @@ import { useLoginContext } from './LoginData';
 import AccountBtn from './components/AccountBtn';
 import ParticipationForm from './components/EventDetail/ParticipationForm';
 const AdminBtn = React.lazy(() => import('./components/EventDetail/AdminBtn'));
-
-// Styles
-const styles = {
-  gridWrapper: { height: '100%' },
-  backBtn: { height: '32px', width: '32px', color: 'white' },
-  detailWrapper: {
-    flexGrow: 1,
-    display: 'inline-flex',
-    justifyContent: 'center',
-  },
-  ...headerStyle,
-};
 
 /**
  * React Functional Component to generate event detail screen
