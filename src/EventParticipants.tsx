@@ -8,6 +8,7 @@ import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 // Material UI
 import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
 // Global Style, Type, and Data
@@ -40,6 +41,15 @@ const styles = {
     flexDirection: 'column',
   },
   eventInfo: { width: '100%', maxWidth: '800px', alignSelf: 'center' },
+  noParticipants: {
+    width: '100%',
+    height: '100%',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontStyle: 'italic',
+    color: 'gray',
+  },
   ...detailPageStyle,
 };
 
@@ -224,7 +234,7 @@ function EventParticipants(): React.ReactElement {
               <AccountBtn />
             </Box>
           </Grid>
-          {eventDetail && (
+          {eventDetail && participantsDetail && (
             <Grid item sx={styles.detailWrapper}>
               <Box sx={styles.eventInfoWrapper}>
                 <Box sx={styles.eventInfo}>
@@ -243,7 +253,13 @@ function EventParticipants(): React.ReactElement {
                   </Typography>
                 </Box>
                 <Divider sx={{ margin: '10px 0' }} />
-                {participantsDetail && <Grid item></Grid>}
+                {participantsDetail.numParticipants === 0 ? (
+                  <Box sx={{ height: '100%' }}>
+                    <Typography variant="h5" sx={styles.noParticipants}>
+                      No Participants
+                    </Typography>
+                  </Box>
+                ) : null}
               </Box>
             </Grid>
           )}
