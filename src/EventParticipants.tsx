@@ -8,29 +8,24 @@ import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 // Material UI
 import { Box, Divider, Grid, IconButton, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 // Material UI Icon
 import { ArrowCircleLeftOutlined } from '@mui/icons-material';
 // Global Style, Type, and Data
 import detailPageStyle from './globalStyle/detailPageStyle';
 import EventDetailData from './globalType/EventDetailData';
+import ParticipantInfo from './globalType/ParticipantInfo';
 import eventData from './globalData/eventDetail';
 // Custom Hook to load LoginContext
 import { useLoginContext } from './LoginData';
 // Components
 import AccountBtn from './components/AccountBtn';
-
-type participantInfo = {
-  id: number | string;
-  participantName: string;
-  email: string;
-  phoneNumber?: string;
-  comment?: string;
-};
+const ParticipantsTable = React.lazy(
+  () => import('./components/EventParticipants/ParticipantsTable')
+);
 
 type ParticipantsDetailData = {
   numParticipants: number;
-  participantsList?: participantInfo[];
+  participantsList?: ParticipantInfo[];
 };
 
 const styles = {
@@ -259,7 +254,14 @@ function EventParticipants(): React.ReactElement {
                       No Participants
                     </Typography>
                   </Box>
-                ) : null}
+                ) : (
+                  <ParticipantsTable
+                    eventId={id as string}
+                    participantsList={
+                      participantsDetail.participantsList as ParticipantInfo[]
+                    }
+                  />
+                )}
               </Box>
             </Grid>
           )}

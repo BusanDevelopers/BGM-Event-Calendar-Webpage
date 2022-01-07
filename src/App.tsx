@@ -4,6 +4,8 @@
  * @author Hyecheol (Jerry) Jang <hyecheol123@gmail.com>
  */
 
+// Global CSS
+import './App.css';
 // React
 import React from 'react';
 import { render } from 'react-dom';
