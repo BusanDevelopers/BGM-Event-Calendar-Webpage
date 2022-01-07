@@ -149,6 +149,7 @@ function EventParticipants(): React.ReactElement {
   const [dateString, setDateString] = React.useState('');
   const [participantsDetail, setParticipantsDetail] =
     React.useState<ParticipantsDetailData | null>(null);
+  const [participantsModified, setParticipantsModified] = React.useState(true);
 
   // Retrieve eventId from the path
   const { id } = useParams();
@@ -177,11 +178,20 @@ function EventParticipants(): React.ReactElement {
     setParticipantsDetail(participationResponse);
   }, [id]);
 
-  // On First Load
+  // Load Data on first load and when participantsModified flag set
   React.useEffect(() => {
-    loadData();
+    if (participantsModified) {
+      loadData();
+      setParticipantsModified(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [participantsModified]);
+
+  // Function to set the participantsModified flag
+  const setModifiedFlag = React.useCallback(
+    () => setParticipantsModified(true),
+    []
+  );
 
   // Function to direct user to previous location
   const goBack = React.useCallback((): void => {
@@ -260,6 +270,7 @@ function EventParticipants(): React.ReactElement {
                     participantsList={
                       participantsDetail.participantsList as ParticipantInfo[]
                     }
+                    setModifiedFlagFunc={setModifiedFlag}
                   />
                 )}
               </Box>
