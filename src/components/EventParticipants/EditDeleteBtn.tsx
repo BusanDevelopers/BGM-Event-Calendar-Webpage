@@ -10,6 +10,9 @@ import { Box, IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 // Globally used Types
 import ParticipantInfo from '../../globalType/ParticipantInfo';
+const EditParticipantsModal = React.lazy(
+  () => import('./EditParticipantsModal')
+);
 
 // Type for the component's props
 type EditDeleteBtnProps = {
@@ -28,6 +31,8 @@ type EditDeleteBtnProps = {
  */
 function EditDeleteBtn(props: EditDeleteBtnProps): React.ReactElement {
   const { eventId, data, setModifiedFlagFunc } = props;
+  // State
+  const [modalOpen, setModalOpen] = React.useState(false);
 
   // EventHandler for the buttons
   const deleteParticipant = React.useCallback((): void => {
@@ -37,11 +42,24 @@ function EditDeleteBtn(props: EditDeleteBtnProps): React.ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // EventHandler to open/close edit modal
+  const openEditModal = React.useCallback((): void => setModalOpen(true), []);
+  const closeEditModal = React.useCallback((): void => setModalOpen(false), []);
+
   return (
     <Box>
-      <IconButton color="primary">
+      <IconButton color="primary" onClick={openEditModal}>
         <Edit />
       </IconButton>
+      {modalOpen && (
+        <EditParticipantsModal
+          isOpen={modalOpen}
+          participantsDetail={data}
+          eventId={eventId as string}
+          handleClose={closeEditModal}
+          setModifiedFlagFunc={setModifiedFlagFunc}
+        />
+      )}
       /
       <IconButton color="secondary" onClick={deleteParticipant}>
         <Delete />
